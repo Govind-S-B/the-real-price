@@ -1,6 +1,6 @@
 function replaceText() {
     let bodyText = document.body.innerHTML;
-    bodyText = bodyText.replace(/x/g, '6969');
+    bodyText = bodyText.replace(/x/gi, '6969');
     document.body.innerHTML = bodyText;
 }
 
