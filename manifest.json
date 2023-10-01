@@ -1,0 +1,25 @@
+{
+    "manifest_version": 3,
+    "name": "X Replacer",
+    "description": "This extension replaces the letter 'x' with '6969'",
+    "version": "1.0",
+    "permissions": [
+        "activeTab"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "content.js"
+            ]
+        }
+    ]
+}
