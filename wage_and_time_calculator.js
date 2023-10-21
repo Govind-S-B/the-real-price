@@ -6,7 +6,12 @@
  */
 function hourly_from_annual(hours_worked_per_week, annual_salary) {
     // Ensure valid input
-    if (isNaN(hours_worked_per_week) || isNaN(annual_salary) || hours_worked_per_week <= 0 || annual_salary <= 0) {
+    if (
+        isNaN(hours_worked_per_week) ||
+        isNaN(annual_salary) ||
+        hours_worked_per_week <= 0 ||
+        annual_salary <= 0
+    ) {
         return null; // Invalid input, return null or handle the error appropriately
     }
 
@@ -24,7 +29,12 @@ function hourly_from_annual(hours_worked_per_week, annual_salary) {
  */
 function hourly_from_monthly(hours_worked_per_week, monthly_salary) {
     // Ensure valid input
-    if (isNaN(hours_worked_per_week) || isNaN(monthly_salary) || hours_worked_per_week <= 0 || monthly_salary <= 0) {
+    if (
+        isNaN(hours_worked_per_week) ||
+        isNaN(monthly_salary) ||
+        hours_worked_per_week <= 0 ||
+        monthly_salary <= 0
+    ) {
         return null; // Invalid input, return null or handle the error appropriately
     }
 
@@ -42,7 +52,12 @@ function hourly_from_monthly(hours_worked_per_week, monthly_salary) {
  */
 function money_to_time(monetary_cost, hourly_wage) {
     // Ensure valid input
-    if (isNaN(monetary_cost) || isNaN(hourly_wage) || monetary_cost <= 0 || hourly_wage <= 0) {
+    if (
+        isNaN(monetary_cost) ||
+        isNaN(hourly_wage) ||
+        monetary_cost <= 0 ||
+        hourly_wage <= 0
+    ) {
         return null; // Invalid input, return null or handle the error appropriately
     }
 
