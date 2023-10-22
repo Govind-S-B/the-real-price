@@ -3,8 +3,9 @@ document.getElementById('replaceButton').addEventListener('click', function () {
         chrome.tabs.sendMessage(tabs[0].id, { action: 'replace' });
     });
 });
+const jsonFilePath = chrome.runtime.getURL('currencies.json');
 
-var currencies = [
+let currencies = [
     'AUD',
     'BGN',
     'BRL',
@@ -36,7 +37,6 @@ var currencies = [
     'TRY',
     'USD',
     'ZAR',
-    // Add more currencies here
 ];
 var datalist = document.getElementById('currencies');
 for (const currency of currencies) {

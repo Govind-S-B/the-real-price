@@ -5,6 +5,7 @@
     "version": "1.0",
     "permissions": [
         "activeTab"
+
     ],
     "background": {
         "service_worker": "background.js"
@@ -21,5 +22,6 @@
                 "content.js"
             ]
         }
-    ]
+    ],
+ "scripts": ["popup.js"]
 }
