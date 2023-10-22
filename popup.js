@@ -1,15 +1,22 @@
 import {
     hourly_from_monthly,
     hourly_from_annual,
-    money_to_time,
 } from '/wage_and_time_calculator.js';
 
+let userData = {
+    salaryType: undefined,
+    salary: undefined,
+    hours: undefined,
+    currency: undefined,
+    hourlyWage: undefined,
+};
 let time = undefined;
 document.getElementById('replaceButton').addEventListener('click', function () {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         chrome.tabs.sendMessage(tabs[0].id, {
             action: 'replace',
-            time: 'foobar',
+            time: 'fiibar',
+            data: userData,
         });
     });
 });
@@ -50,13 +57,6 @@ let currencies = [
     'USD',
     'ZAR',
 ];
-let userData = {
-    salaryType: undefined,
-    salary: undefined,
-    hours: undefined,
-    currency: undefined,
-    hourlyWage: undefined,
-};
 
 chrome.storage.local.get(['userData']).then((storedData) => {
     if (!storedData.userData.hourlyWage) {
@@ -64,7 +64,6 @@ chrome.storage.local.get(['userData']).then((storedData) => {
         return;
     }
     userData = storedData.userData;
-    console.log(`this is ${userData}`);
     document.getElementById('salary-type').value = userData.salaryType;
     document.getElementById('salary').value = userData.salary;
     document.getElementById('hours').value = userData.hours;
