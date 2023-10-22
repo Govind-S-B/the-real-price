@@ -1,10 +1,22 @@
+import {
+    hourly_from_monthly,
+    hourly_from_annual,
+    money_to_time,
+} from '/wage_and_time_calculator.js';
+
+let time = undefined;
 document.getElementById('replaceButton').addEventListener('click', function () {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, { action: 'replace' });
+        chrome.tabs.sendMessage(tabs[0].id, {
+            action: 'replace',
+            time: 'foobar',
+        });
     });
 });
 const jsonFilePath = chrome.runtime.getURL('currencies.json');
 
+let wageText = document.getElementById('hourly-wage');
+let datalist = document.getElementById('currencies');
 let currencies = [
     'AUD',
     'BGN',
@@ -38,9 +50,33 @@ let currencies = [
     'USD',
     'ZAR',
 ];
-var datalist = document.getElementById('currencies');
+let userData = {
+    salaryType: undefined,
+    salary: undefined,
+    hours: undefined,
+    currency: undefined,
+    hourlyWage: undefined,
+};
+
+chrome.storage.local.get(['userData']).then((storedData) => {
+    if (!storedData.userData.hourlyWage) {
+        console.log(storedData);
+        return;
+    }
+    userData = storedData.userData;
+    console.log(`this is ${userData}`);
+    document.getElementById('salary-type').value = userData.salaryType;
+    document.getElementById('salary').value = userData.salary;
+    document.getElementById('hours').value = userData.hours;
+    document.getElementById('currency').value = userData.currency;
+
+    wageText.innerHTML = `Hourly Wage: ${Math.round(userData.hourlyWage)} ${
+        userData.currency
+    }`;
+});
+
 for (const currency of currencies) {
-    var option = document.createElement('option');
+    let option = document.createElement('option');
 
     // Set the value and label for the option
     option.value = currency;
@@ -50,11 +86,28 @@ for (const currency of currencies) {
     datalist.appendChild(option);
 }
 // Create a new option element
-var form = document.querySelector('form');
+let form = document.querySelector('form');
 form.addEventListener('submit', function (event) {
     event.preventDefault();
-    var salaryType = document.getElementById('salary-type').value;
-    var salary = document.getElementById('salary').value;
-    var hours = document.getElementById('hours').value;
-    var currency = document.getElementById('currency').value;
+    userData.salaryType = document.getElementById('salary-type').value;
+    userData.salary = document.getElementById('salary').value;
+    userData.hours = document.getElementById('hours').value;
+    userData.currency = document.getElementById('currency').value;
+    if (userData.salaryType === 'monthly') {
+        userData.hourlyWage = hourly_from_monthly(
+            userData.hours,
+            userData.salary
+        );
+    } else if (userData.salaryType === 'yearly') {
+        userData.hourlyWage = hourly_from_annual(
+            userData.hours,
+            userData.salary
+        );
+    } else {
+        throw new TypeError('not monthly or yearly');
+    }
+    chrome.storage.local.set({ userData: userData });
+    wageText.innerHTML = `Hourly Wage: ${Math.round(userData.hourlyWage)} ${
+        userData.currency
+    }`;
 });

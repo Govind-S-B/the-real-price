@@ -66,3 +66,5 @@ function money_to_time(monetary_cost, hourly_wage) {
 
     return minutesToWork;
 }
+
+export { hourly_from_annual, hourly_from_monthly, money_to_time };
