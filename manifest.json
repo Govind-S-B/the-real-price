@@ -4,7 +4,8 @@
     "description": "This extension replaces the letter 'x' with '6969'",
     "version": "1.0",
     "permissions": [
-        "activeTab"
+        "activeTab",
+        "storage"
     ],
     "background": {
         "service_worker": "background.js"
@@ -21,5 +22,6 @@
                 "content.js"
             ]
         }
-    ]
+    ],
+ "scripts": ["popup.js"]
 }

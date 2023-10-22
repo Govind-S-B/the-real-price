@@ -44,25 +44,4 @@ function hourly_from_monthly(hours_worked_per_week, monthly_salary) {
     return hourlyWage;
 }
 
-/**
- * Converts a monetary cost into the amount of time the user needs to work to earn this much money (in minutes).
- * @param {number} monetary_cost - The cost of the item.
- * @param {number} hourly_wage - The user's hourly wage.
- * @returns {number} The amount of minutes the user needs to work to earn the specified amount of money (rounded to the nearest integer).
- */
-function money_to_time(monetary_cost, hourly_wage) {
-    // Ensure valid input
-    if (
-        isNaN(monetary_cost) ||
-        isNaN(hourly_wage) ||
-        monetary_cost <= 0 ||
-        hourly_wage <= 0
-    ) {
-        return null; // Invalid input, return null or handle the error appropriately
-    }
-
-    // Calculate minutes required to earn the money
-    const minutesToWork = Math.round((monetary_cost / hourly_wage) * 60);
-
-    return minutesToWork;
-}
+export { hourly_from_annual, hourly_from_monthly };
