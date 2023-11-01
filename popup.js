@@ -3,23 +3,6 @@ import {
     hourly_from_annual,
 } from '/wage_and_time_calculator.js';
 
-let userData = {
-    salaryType: undefined,
-    salary: undefined,
-    hours: undefined,
-    currency: undefined,
-    hourlyWage: undefined,
-};
-let time = undefined;
-document.getElementById('replaceButton').addEventListener('click', function () {
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, {
-            action: 'replace',
-            time: 'fiibar',
-            data: userData,
-        });
-    });
-});
 const jsonFilePath = chrome.runtime.getURL('currencies.json');
 
 let wageText = document.getElementById('hourly-wage');
@@ -57,6 +40,13 @@ let currencies = [
     'USD',
     'ZAR',
 ];
+let userData = {
+    salaryType: undefined,
+    salary: undefined,
+    hours: undefined,
+    currency: undefined,
+    hourlyWage: undefined,
+};
 
 chrome.storage.local.get(['userData']).then((storedData) => {
     if (!storedData.userData.hourlyWage) {
@@ -72,6 +62,7 @@ chrome.storage.local.get(['userData']).then((storedData) => {
     wageText.innerHTML = `Hourly Wage: ${Math.round(userData.hourlyWage)} ${
         userData.currency
     }`;
+    setReplaceButtoneventListener();
 });
 
 for (const currency of currencies) {
@@ -106,7 +97,23 @@ form.addEventListener('submit', function (event) {
         throw new TypeError('not monthly or yearly');
     }
     chrome.storage.local.set({ userData: userData });
+    setReplaceButtoneventListener();
     wageText.innerHTML = `Hourly Wage: ${Math.round(userData.hourlyWage)} ${
         userData.currency
     }`;
 });
+function setReplaceButtoneventListener() {
+    document
+        .getElementById('replaceButton')
+        .addEventListener('click', function () {
+            chrome.tabs.query(
+                { active: true, currentWindow: true },
+                function (tabs) {
+                    chrome.tabs.sendMessage(tabs[0].id, {
+                        action: 'replace',
+                        wage: userData.hourlyWage,
+                    });
+                }
+            );
+        });
+}
